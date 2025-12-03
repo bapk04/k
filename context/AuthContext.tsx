@@ -16,6 +16,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
     updateUser: (updatedUser: User) => void;
+    resetPassword: (email: string, newPassword: string) => Promise<boolean>;
     loading: boolean;
 }
 
@@ -81,8 +82,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const resetPassword = async (email: string, newPassword: string) => {
+        try {
+            const usersStr = localStorage.getItem('users');
+            if (usersStr) {
+                const users = JSON.parse(usersStr);
+                const userIndex = users.findIndex((u: any) => u.email === email);
+                if (userIndex !== -1) {
+                    users[userIndex].password = newPassword;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Reset password error:', error);
+            return false;
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, resetPassword, loading }}>
             {children}
         </AuthContext.Provider>
     );

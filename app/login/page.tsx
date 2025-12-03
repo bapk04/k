@@ -182,7 +182,7 @@ export default function LoginPage() {
                         </Button>
                         <Grid container justifyContent="space-between">
                             <Grid>
-                                <Link href="#" style={{ textDecoration: 'none', color: '#2563eb' }}>
+                                <Link href="/forgot-password" style={{ textDecoration: 'none', color: '#2563eb' }}>
                                     Forgot password?
                                 </Link>
                             </Grid>
